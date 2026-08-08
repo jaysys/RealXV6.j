@@ -53,6 +53,7 @@ usr     d--755 0 0
         $
 $
 readme.txt ---755 0 0 ../readme.txt
+README.md ---755 0 0 ../README.md
 $
 
 : mkfs proto file format

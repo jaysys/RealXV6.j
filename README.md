@@ -35,6 +35,50 @@ This branch requires a 386-class CPU (or emulator); it is experimental and a wor
 
 The project is built with the **Open Watcom** C compiler and toolchain (`wcc`, `wasm`, `wlink`, `wmake`), which runs on modern Windows, Linux, and macOS while targeting 16-bit 8086 code. Build the kernel with the top-level `Makefile`; the userspace (`usr/`) and the boot image (`boot/`) have their own Makefiles.
 
+### Build Steps
+
+```bash
+# 1. Build the kernel (unix.com)
+wmake
+
+# 2. Build userspace programs
+cd usr && wmake
+
+# 3. Build boot images
+cd ../boot && wmake Unix360.img unix.img
+```
+
+### Running in QEMU
+
+```bash
+cd boot
+wmake q          # Run with the built unix.img
+wmake qemu       # Run with the original RK disk image
+```
+
+### Apple Silicon (M3) / macOS
+
+On Apple Silicon Macs, install Open Watcom v2 via Homebrew:
+
+```bash
+brew tap SharkyRawr/homebrew-openwatcom
+brew install openwatcom-v2
+```
+
+> **Important**: After installation, you must source the environment setup script in **every new terminal**:
+> ```bash
+> . $(brew --prefix)/bin/owenv.sh
+> ```
+> Without this, `wmake` will fail with `wlink: undefined system name: dos` because the `WATCOM` environment variable is not set.
+
+To make this automatic, add it to your shell profile:
+
+```bash
+echo '. $(brew --prefix)/bin/owenv.sh' >> ~/.zshrc
+```
+
+On macOS, QEMU uses `-display curses` (terminal VGA text mode) for the `q` target and `-display cocoa` (native window) for the `qemu` and `qemu-uart` targets. The `q` target is recommended as it avoids the rounded window corners issue on macOS. See [`BUILDING-M3.md`](BUILDING-M3.md) for the full Apple Silicon build guide.
+
 ## Code Structure
 
 *   `/ken` — machine-independent kernel (named for Ken Thompson): system calls, process management, file system, scheduler.

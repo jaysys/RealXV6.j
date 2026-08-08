@@ -1,0 +1,13 @@
+# macOS metadata
+.DS_Store
+
+# Open Watcom and assembler/linker build artifacts
+*.obj
+*.err
+*.com
+*.map
+*.lib
+
+# Generated boot images and filesystem tools
+boot/*.img
+tools/mkfs

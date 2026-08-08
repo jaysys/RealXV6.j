@@ -26,7 +26,7 @@ b: .symbolic Unix360.img unix.img
 	bochs -qf bochs.rc
 
 q: .symbolic Unix360.img unix.img
-	qemu-system-i386 -curses -drive file=Unix360.img,format=raw,if=floppy -drive file=unix.img,format=raw,if=ide -boot a
+	qemu-system-i386 -display curses -drive file=Unix360.img,format=raw,if=floppy -drive file=unix.img,format=raw,if=ide -boot a
 
 unix0_rk.img:
 	gunzip -c unix0_rk.img.gz > $@
@@ -35,10 +35,10 @@ bochs: .symbolic Unix360.img unix0_rk.img
 	bochs -qf bochsrc.bxrc
 
 qemu: .symbolic Unix360.img unix0_rk.img
-	qemu-system-i386 -curses -drive file=Unix360.img,format=raw,if=floppy -drive file=unix0_rk.img,format=raw,if=ide -boot a
+	qemu-system-i386 -display cocoa -drive file=Unix360.img,format=raw,if=floppy -drive file=unix0_rk.img,format=raw,if=ide -boot a
 
 qemu-uart: .symbolic Unix360.img unix0_rk.img
-	qemu-system-i386 -curses -serial stdio -drive file=Unix360.img,format=raw,if=floppy -drive file=unix0_rk.img,format=raw,if=ide -boot a
+	qemu-system-i386 -display cocoa -drive file=Unix360.img,format=raw,if=floppy -drive file=unix0_rk.img,format=raw,if=ide -boot a
 
 clean: .symbolic
 	rm -f *.obj *.err *.com *.img *.txt ../tools/mkfs
